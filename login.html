@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            font-family: Arial, sans-serif;
+
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+
+            background-image: url("bg1.jpg");
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+
+            background: rgba(0, 0, 0, 0.15);
+
+            z-index: -1;
+        }
+
+        /* Login Box */
+        .login-container {
+            width: 380px;
+            padding: 40px 35px;
+
+            text-align: center;
+
+            background: rgba(255, 255, 255, 0.20);
+
+            border: 1px solid rgba(255, 255, 255, 0.45);
+            border-radius: 15px;
+
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+        }
+
+        /* Title */
+        .login-container h1 {
+            color: white;
+            font-size: 32px;
+            margin-bottom: 30px;
+
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.7);
+        }
+
+        /* Input Fields */
+        .input-box {
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        .input-box input {
+            width: 100%;
+
+            padding: 13px 18px;
+
+            border: none;
+            outline: none;
+
+            border-radius: 25px;
+
+            background: rgba(255, 255, 255, 0.90);
+
+            font-size: 14px;
+        }
+
+        .input-box input::placeholder {
+            color: #555;
+        }
+
+        .input-box input:focus {
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.7);
+        }
+
+        /* Password Box */
+        .password-box {
+            position: relative;
+        }
+
+        .password-box input {
+            padding-right: 65px;
+        }
+
+        /* Show / Hide Button */
+        .show-hide {
+            position: absolute;
+
+            right: 18px;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            border: none;
+            background: transparent;
+
+            color: #333;
+
+            font-size: 12px;
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        .show-hide:hover {
+            text-decoration: underline;
+        }
+
+        /* Remember Me / Forgot Password */
+        .options {
+            display: flex;
+
+            justify-content: space-between;
+            align-items: center;
+
+            margin: 5px 5px 20px;
+
+            color: white;
+
+            font-size: 12px;
+        }
+
+        .remember {
+            display: flex;
+
+            align-items: center;
+
+            gap: 5px;
+        }
+
+        .remember input {
+            width: 12px;
+            height: 12px;
+        }
+
+        .options a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .options a:hover {
+            text-decoration: underline;
+        }
+
+        /* Login Button */
+        .login-button {
+            width: 100%;
+
+            padding: 12px;
+
+            border: none;
+
+            border-radius: 25px;
+
+            background: white;
+            color: #333;
+
+            font-size: 14px;
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        .login-button:hover {
+            background: #eeeeee;
+        }
+
+        /* Error Message */
+        #errorMessage {
+            display: none;
+
+            margin-top: 15px;
+
+            color: #ffdddd;
+
+            font-size: 13px;
+            font-weight: bold;
+
+            text-shadow: 1px 1px 3px #333;
+        }
+
+        /* Register Text */
+        .register-text {
+            margin-top: 20px;
+
+            color: white;
+
+            font-size: 13px;
+        }
+
+        .register-text a {
+            color: white;
+
+            font-weight: bold;
+
+            text-decoration: none;
+        }
+
+        .register-text a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 500px) {
+
+            .login-container {
+                width: 90%;
+                padding: 35px 25px;
+            }
+
+            .login-container h1 {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-container">
+
+        <h1>Login</h1>
+
+        <form id="loginForm">
+
+            <!-- Gmail / Email -->
+            <div class="input-box">
+
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="Gmail / Email Address"
+                    autocomplete="email"
+                    required
+                >
+
+            </div>
+
+
+            <!-- Password -->
+            <div class="input-box password-box">
+
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Password"
+                    autocomplete="current-password"
+                    required
+                >
+
+                <button
+                    type="button"
+                    class="show-hide"
+                    id="showHideButton"
+                    onclick="showHidePassword()">
+
+                    Show
+
+                </button>
+
+            </div>
+
+
+            <!-- Options -->
+            <div class="options">
+
+                <label class="remember">
+
+                    <input
+                        type="checkbox"
+                        id="rememberMe"
+                    >
+
+                    Remember me
+
+                </label>
+
+                <a href="#">
+                    Forgot password?
+                </a>
+
+            </div>
+
+
+            <!-- Login Button -->
+            <button
+                type="submit"
+                class="login-button">
+
+                Login
+
+            </button>
+
+
+            <!-- Error Message -->
+            <p id="errorMessage"></p>
+
+
+            <!-- Register -->
+            <p class="register-text">
+
+                Don't have an account?
+
+                <a href="register.html">
+                    Register
+                </a>
+
+            </p>
+
+        </form>
+
+    </div>
+
+
+    <script>
+
+        // ==========================================
+        // SHOW / HIDE PASSWORD
+        // ==========================================
+
+        function showHidePassword() {
+
+            const password =
+                document.getElementById("password");
+
+            const button =
+                document.getElementById("showHideButton");
+
+
+            if (password.type === "password") {
+
+                password.type = "text";
+
+                button.textContent = "Hide";
+
+            } else {
+
+                password.type = "password";
+
+                button.textContent = "Show";
+
+            }
+        }
+
+
+        // ==========================================
+        // LOGIN
+        // ==========================================
+
+        const loginForm =
+            document.getElementById("loginForm");
+
+        const errorMessage =
+            document.getElementById("errorMessage");
+
+
+        loginForm.addEventListener(
+            "submit",
+            function(event) {
+
+                event.preventDefault();
+
+
+                // Get entered email and password
+                const email =
+                    document.getElementById("email").value.trim();
+
+                const password =
+                    document.getElementById("password").value;
+
+
+                // Get registered account
+                const registeredUser =
+                    localStorage.getItem("registeredUser");
+
+
+                // Check if account exists
+                if (!registeredUser) {
+
+                    errorMessage.style.display = "block";
+
+                    errorMessage.textContent =
+                        "No registered account found. Please register first.";
+
+                    return;
+                }
+
+
+                // Convert saved data
+                const userData =
+                    JSON.parse(registeredUser);
+
+
+                // ==================================
+                // CHECK EMAIL
+                // ==================================
+
+                if (
+                    email.toLowerCase() !==
+                    userData.email.toLowerCase()
+                ) {
+
+                    errorMessage.style.display = "block";
+
+                    errorMessage.textContent =
+                        "Incorrect Gmail or Email Address. Please try again.";
+
+                    return;
+                }
+
+
+                // ==================================
+                // CHECK PASSWORD
+                // ==================================
+
+                if (password !== userData.password) {
+
+                    errorMessage.style.display = "block";
+
+                    errorMessage.textContent =
+                        "Incorrect password. Please try again.";
+
+                    return;
+                }
+
+
+                // ==================================
+                // LOGIN SUCCESSFUL
+                // ==================================
+
+                errorMessage.style.display = "none";
+
+
+                // Save login status
+                sessionStorage.setItem(
+                    "isLoggedIn",
+                    "true"
+                );
+
+
+                sessionStorage.setItem(
+                    "loggedInEmail",
+                    userData.email
+                );
+
+
+                // Go to landing page
+                window.location.href = "index.html";
+
+            }
+        );
+
+    </script>
+
+</body>
+</html>

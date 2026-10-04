@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            font-family: Arial, sans-serif;
+
+            background-image: url("bg2.jpg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+
+            padding: 20px;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.15);
+            z-index: -1;
+        }
+
+        .register-container {
+            width: 400px;
+            max-width: 100%;
+            padding: 35px;
+
+            text-align: center;
+
+            background: rgba(255, 255, 255, 0.20);
+
+            border: 1px solid rgba(255, 255, 255, 0.45);
+            border-radius: 15px;
+
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+        }
+
+        h1 {
+            color: white;
+            font-size: 30px;
+            margin-bottom: 25px;
+
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.7);
+        }
+
+        .input-box {
+            width: 100%;
+            margin-bottom: 14px;
+            position: relative;
+        }
+
+        .input-box input {
+            width: 100%;
+            padding: 13px 18px;
+
+            border: none;
+            outline: none;
+            border-radius: 25px;
+
+            background: rgba(255, 255, 255, 0.90);
+
+            font-size: 14px;
+        }
+
+        .input-box input:focus {
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.7);
+        }
+
+        .password-box input {
+            padding-right: 65px;
+        }
+
+        .show-hide {
+            position: absolute;
+            right: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+
+            border: none;
+            background: transparent;
+
+            color: #333;
+            font-size: 12px;
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        .show-hide:hover {
+            text-decoration: underline;
+        }
+
+        .hint {
+            display: none;
+
+            color: white;
+            font-size: 12px;
+
+            text-align: left;
+
+            margin: -7px 0 12px 10px;
+
+            text-shadow: 1px 1px 3px #333;
+        }
+
+        .hint.error {
+            color: #ffdddd;
+        }
+
+        .hint.success {
+            color: #d7ffda;
+        }
+
+        .register-button {
+            width: 100%;
+            padding: 12px;
+
+            margin-top: 5px;
+
+            border: none;
+            border-radius: 25px;
+
+            background: white;
+            color: #333;
+
+            font-size: 14px;
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        .register-button:hover {
+            background: #eeeeee;
+        }
+
+        .register-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .login-text {
+            margin-top: 20px;
+
+            color: white;
+            font-size: 13px;
+        }
+
+        .login-text a {
+            color: white;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .login-text a:hover {
+            text-decoration: underline;
+        }
+
+        #message {
+            display: none;
+
+            margin-top: 15px;
+
+            font-size: 13px;
+        }
+
+        @media (max-width: 500px) {
+            .register-container {
+                padding: 30px 25px;
+            }
+
+            h1 {
+                font-size: 27px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="register-container">
+
+        <h1>Create Account</h1>
+
+        <form id="registerForm">
+
+            <!-- Full Name -->
+            <div class="input-box">
+                <input
+                    type="text"
+                    id="fullName"
+                    placeholder="Full Name"
+                    required
+                >
+            </div>
+
+            <!-- Username -->
+            <div class="input-box">
+                <input
+                    type="text"
+                    id="username"
+                    placeholder="Username"
+                    required
+                >
+            </div>
+
+            <!-- Email -->
+            <div class="input-box">
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="Gmail / Email Address"
+                    required
+                >
+            </div>
+
+            <!-- Password -->
+            <div class="input-box password-box">
+
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Password"
+                    minlength="6"
+                    required
+                >
+
+                <button
+                    type="button"
+                    class="show-hide"
+                    id="passwordButton"
+                    onclick="togglePassword('password', 'passwordButton')">
+                    Show
+                </button>
+
+            </div>
+
+            <p class="hint" id="passwordHint">
+                Password must contain at least 6 characters.
+            </p>
+
+
+            <!-- Confirm Password -->
+            <div class="input-box password-box">
+
+                <input
+                    type="password"
+                    id="confirmPassword"
+                    placeholder="Confirm Password"
+                    minlength="6"
+                    required
+                >
+
+                <button
+                    type="button"
+                    class="show-hide"
+                    id="confirmButton"
+                    onclick="togglePassword('confirmPassword', 'confirmButton')">
+                    Show
+                </button>
+
+            </div>
+
+            <p class="hint" id="confirmHint"></p>
+
+
+            <!-- Register Button -->
+            <button
+                type="submit"
+                class="register-button"
+                id="registerButton">
+                Register
+            </button>
+
+
+            <!-- Login -->
+            <p class="login-text">
+                Already have an account?
+                <a href="login.html">Login</a>
+            </p>
+
+            <p id="message"></p>
+
+        </form>
+
+    </div>
+
+
+    <script>
+
+        const form = document.getElementById("registerForm");
+
+        const password = document.getElementById("password");
+
+        const confirmPassword =
+            document.getElementById("confirmPassword");
+
+        const passwordHint =
+            document.getElementById("passwordHint");
+
+        const confirmHint =
+            document.getElementById("confirmHint");
+
+        const message =
+            document.getElementById("message");
+
+        const registerButton =
+            document.getElementById("registerButton");
+
+
+        // ==========================================
+        // SHOW / HIDE PASSWORD
+        // ==========================================
+
+        function togglePassword(inputId, buttonId) {
+
+            const input =
+                document.getElementById(inputId);
+
+            const button =
+                document.getElementById(buttonId);
+
+
+            if (input.type === "password") {
+
+                input.type = "text";
+
+                button.textContent = "Hide";
+
+            } else {
+
+                input.type = "password";
+
+                button.textContent = "Show";
+            }
+        }
+
+
+        // ==========================================
+        // PASSWORD VALIDATION
+        // ==========================================
+
+        function validatePasswords() {
+
+            const pass = password.value;
+
+            const confirm = confirmPassword.value;
+
+
+            // Password
+            if (pass.length === 0) {
+
+                passwordHint.style.display = "none";
+
+            } else {
+
+                passwordHint.style.display = "block";
+
+
+                if (pass.length < 6) {
+
+                    passwordHint.textContent =
+                        "Password must contain at least 6 characters.";
+
+                    passwordHint.className =
+                        "hint error";
+
+                } else {
+
+                    passwordHint.textContent =
+                        "Password length is valid.";
+
+                    passwordHint.className =
+                        "hint success";
+                }
+            }
+
+
+            // Confirm Password
+            if (confirm.length === 0) {
+
+                confirmHint.style.display = "none";
+
+            } else {
+
+                confirmHint.style.display = "block";
+
+
+                if (confirm.length < 6) {
+
+                    confirmHint.textContent =
+                        "Confirm password must contain at least 6 characters.";
+
+                    confirmHint.className =
+                        "hint error";
+
+                } else if (pass !== confirm) {
+
+                    confirmHint.textContent =
+                        "Passwords do not match.";
+
+                    confirmHint.className =
+                        "hint error";
+
+                } else {
+
+                    confirmHint.textContent =
+                        "Passwords match!";
+
+                    confirmHint.className =
+                        "hint success";
+                }
+            }
+
+
+            return (
+                pass.length >= 6 &&
+                confirm.length >= 6 &&
+                pass === confirm
+            );
+        }
+
+
+        password.addEventListener(
+            "input",
+            validatePasswords
+        );
+
+        confirmPassword.addEventListener(
+            "input",
+            validatePasswords
+        );
+
+
+        // ==========================================
+        // REGISTER
+        // ==========================================
+
+        form.addEventListener(
+            "submit",
+            function(event) {
+
+                event.preventDefault();
+
+
+                // Check all required fields
+                if (!form.reportValidity()) {
+                    return;
+                }
+
+
+                // Check password
+                if (!validatePasswords()) {
+
+                    message.style.display = "block";
+
+                    message.style.color = "#ffdddd";
+
+                    message.textContent =
+                        "Registration failed. Password must have at least 6 characters and both passwords must match.";
+
+                    return;
+                }
+
+
+                // Disable button
+                registerButton.disabled = true;
+
+                registerButton.textContent =
+                    "Registering...";
+
+
+                // Get information
+                const fullName =
+                    document.getElementById("fullName").value;
+
+                const username =
+                    document.getElementById("username").value;
+
+                const email =
+                    document.getElementById("email").value;
+
+
+                // Save registration data locally
+                const userData = {
+
+                    fullName: fullName,
+
+                    username: username,
+
+                    email: email,
+
+                    password: password.value
+                };
+
+
+                localStorage.setItem(
+                    "registeredUser",
+                    JSON.stringify(userData)
+                );
+
+
+                // Successful registration
+                alert(
+                    "Registration successful! You can now login."
+                );
+
+
+                // Go to Login
+                window.location.href = "login.html";
+
+            }
+        );
+
+    </script>
+
+</body>
+</html>
